@@ -2,7 +2,22 @@
 
 ## Overview
 
-This week, you will learn how to use relative timelocks in Bitcoin transactions. Relative timelocks are used to create input-specific locks. A transaction can be locked up to a certain number of blocks since the block in which the input it is referring to has been mined.
+In this fifth week you will:
+1. **Create** two wallets on regtest: `Miner` and `Alice`.
+2. **Fund** the wallets by:
+   - Mining blocks to credit Miner. 
+   - Sending some BTC from Miner to Alice. 
+3. **Confirm** the funding transaction and assert that Alice’s balance is positive.
+4. **Build** a refund transaction from Alice back to Miner for 10 BTC, with a relative timelock of 10 blocks (i.e. set the input’s nSequence appropriately).
+5. **Attempt** to broadcast the refund transaction immediately, and report in your terminal what error or behavior you observe.
+6. **Mine** 10 more blocks.
+7. **Broadcast** the refund transaction, then mine one additional block to confirm it.
+8. **Output** the refund transaction ID to `out.txt`.
+9. **Target Locations** for the solution code for each languages are given below:
+   - Bash: [solution.sh](./bash/solution.sh)
+   - Javascript: [index.js](./javascript/index.js)
+   - Python: [main.py](./python/main.py)
+   - Rust: [main.rs](./rust/src/main.rs)
 
 ## Problem Statement
 
@@ -12,7 +27,7 @@ The exercise below demonstrates using a relative timelock spend.
 
 ## Solution Requirements
 
-You need to write a bash script that will do the following:
+Implement the following tasks in exactly one of the language-specific directories (`bash`, `javascript`, `python`, or `rust`):
 
 ### Setting up a relative timelock
 
@@ -51,36 +66,55 @@ Output the txid of the refund transaction to `out.txt`. The file should contain 
 ## Local Testing
 
 ### Prerequisites
+
+| Language       | Prerequisite packages       |
+| -------------- | --------------------------- |
+| **Bash**       | `jq`, `curl`, `wget`, `tar` |
+| **JavaScript** | Node.js ≥ 20, `npm`         |
+| **Python**     | Python ≥ 3.9                |
+| **Rust**       | Rust stable toolchain       |
+
+
 - Install `jq` tool for parsing JSON data if you don't have it installed.
 - Install Node.js and npm to run the test script.
 - Node version 20 or higher is recommended. You can install Node.js using the following command:
   ```
   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
   source ~/.nvm/nvm.sh
-  nvm install 20
+  nvm install --lts
   ```
 - Install the required npm packages by running `npm install`.
 
-### Testing Steps
-- Start your Bitcoin Core node with the `bitcoin.conf` file with the following parameters:
-  ```
-  regtest=1
-  fallbackfee=0.0001
-  server=1
-  rest=1
-  txindex=1
-  rpcauth=alice:88cae77e34048eff8b9f0be35527dd91$d5c4e7ff4dfe771808e9c00a1393b90d498f54dcab0ee74a2d77bd01230cd4cc
-  ```
-- Run your script using the command `/bin/bash solution.sh`.
-- Run the test script using the command `npm run test`.
+### Local Testing Steps
+It's a good idea to run the whole test locally to ensure your code is working properly.
+- Uncomment the specific line in [run.sh](./run.sh) corresponding to your language of choice.
+- Grant execution permission to [test.sh](./test.sh), by running `chmod +x ./test.sh`.
+- Execute `./test.sh`.
 - The test script will run your script and verify the output. If the test script passes, you have successfully completed the challenge and are ready to submit your solution.
 
+> **Note:** There is a pre-cooked setup script available [here](./setup-bitcoin-node.sh) to download and start bitcoind. You may use that script for all local testing purposes.
+
 ### Common Issues
-- Make sure Bitcoin Core is running before running the test script. Your submission should not stop the Bitcoin Core daemon at any point.
-- Make sure your `bitcoin.conf` file is correctly configured with the required parameters.
+- Your submission should not stop the Bitcoin Core daemon at any point.
 - Linux and MacOS are the recommended operating systems for this challenge. If you are using Windows, you may face compatibility issues.
 - The autograder will run the test script on an Ubuntu 22.04 environment. Make sure your script is compatible with this environment.
 - If you are unable to run the test script locally, you can submit your solution and check the results on the Github.
+
+## Submission
+
+- Commit all code inside the appropriate language directory and the modified `run.sh`.
+  ```
+  git add .
+  git commit -m "Week 2 solution"
+  ```
+- Push to the main branch:
+  ```
+    git push origin main
+  ```
+- The autograder will run your script against a test script to verify the functionality.
+- Check the status of the autograder on the Github Classroom portal to see if it passed successfully or failed. Once you pass the autograder with a score of 100, you have successfully completed the challenge.
+- You can submit multiple times before the deadline. The latest submission before the deadline will be considered your final submission.
+- You will lose access to the repository after the deadline.
 
 ## Resources
 
